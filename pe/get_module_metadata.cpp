@@ -19,10 +19,21 @@ public:
 		image_ (pe_factory::create_pe (file))
 	{}
 
-	Nirvana::ModuleMetadata get_module_metadata () const
+	Nirvana::ModuleMetadata get_module_metadata (bool exe) const
 	{
 		Nirvana::ModuleMetadata md;
 		md.platform = image_.get_machine ();
+
+		if (exe)
+			md.type = ModuleType::MODULE_NIRVANA;
+		else {
+			uint32_t entry_point = image_.get_ep ();
+			if (entry_point) {
+				md.set_error ("Image must be linked with /NOENTRY");
+				return md;
+			}
+		}
+
 		const section* olf = nullptr;
 		const section_list& sections = image_.get_image_sections ();
 		for (const section& sec : sections) {
@@ -32,10 +43,7 @@ public:
 			}
 		}
 
-		uint32_t entry_point = image_.get_ep ();
-		if (entry_point)
-			md.set_error ("Image must be linked with /NOENTRY");
-		else if (!olf)
+		if (!olf)
 			md.set_error ("Metadata not found");
 		else {
 			bool valid;
@@ -132,24 +140,24 @@ private:
 
 namespace Nirvana {
 
-ModuleMetadata get_module_metadata (std::istream& file)
+ModuleMetadata get_module_metadata (std::istream& file, bool exe)
 {
 	ModuleMetadata md;
 	try {
 		ModuleReader reader (file);
-		md = reader.get_module_metadata ();
+		md = reader.get_module_metadata (exe);
 	} catch (const std::exception& ex) {
 		md.set_error (ex.what ());
 	}
 	return md;
 }
 
-ModuleMetadata get_module_metadata (Nirvana::AccessBuf::_ptr_type file)
+ModuleMetadata get_module_metadata (Nirvana::AccessBuf::_ptr_type file, bool exe)
 {
 	ModuleMetadata md;
 	try {
 		ModuleReader reader (file);
-		md = reader.get_module_metadata ();
+		md = reader.get_module_metadata (exe);
 	} catch (const std::exception& ex) {
 		md.set_error (ex.what ());
 	}
