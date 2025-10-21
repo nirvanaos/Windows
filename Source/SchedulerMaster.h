@@ -35,7 +35,7 @@
 #include "CompletionPortReceiver.h"
 #include "ThreadPostman.h"
 #include "WorkerThreads.h"
-#include "object_name.h"
+#include "ObjectName.h"
 #include "BufferPool.h"
 #include <CORBA/Servant_var.h>
 

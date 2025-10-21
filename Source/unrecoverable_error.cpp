@@ -25,6 +25,7 @@
 */
 #include "pch.h"
 #include <unrecoverable_error.h>
+#include <stdio.h>
 #include "DebugLog.h"
 
 namespace Nirvana {
@@ -34,8 +35,8 @@ namespace Port {
 NIRVANA_NORETURN void _unrecoverable_error (int code, const char* file, unsigned line)
 {
 	char scode [_MAX_ITOSTR_BASE10_COUNT], sline [_MAX_ITOSTR_BASE10_COUNT];
-	_itoa (code, scode, 10);
-	_itoa (line, sline, 10);
+	sprintf (scode, "%d", code);
+	sprintf (sline, "%u", line);
 	Windows::DebugLog () << file << '(' << sline << "): Unrecoverable error " << scode << "\n";
 	Windows::DebugLog::terminate ();
 	ExitProcess (-1);

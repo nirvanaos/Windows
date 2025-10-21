@@ -30,7 +30,7 @@
 #include <ThreadWorker.h>
 #include "SchedulerMessage.h"
 #include "app_data.h"
-#include "object_name.h"
+#include "ObjectName.h"
 #include "MessageBroker.h"
 #include <unrecoverable_error.h>
 
@@ -90,7 +90,7 @@ bool SchedulerSlave::run (StartupProt& startup, DeadlineTime startup_deadline)
 
 	cur_process_id = GetCurrentProcessId ();
 	HANDLE sem = CreateSemaphoreW (nullptr, 0, (LONG)Port::SystemInfo::hardware_concurrency (),
-		object_name (SCHEDULER_SEMAPHORE_PREFIX, cur_process_id));
+		ObjectName (SCHEDULER_SEMAPHORE_PREFIX, cur_process_id));
 	if (!sem)
 		throw_INITIALIZE ();
 

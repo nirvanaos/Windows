@@ -26,7 +26,7 @@
 #include "pch.h"
 #include "../Port/OtherDomain.h"
 #include "OtherSpace.inl"
-#include "object_name.h"
+#include "ObjectName.h"
 #include "error2errno.h"
 #include <ExecDomain.h>
 
@@ -40,7 +40,7 @@ OtherDomainBase::OtherDomainBase (ProtDomainId domain_id) :
 	process_ (::OpenProcess (PROCESS_QUERY_INFORMATION
 		| PROCESS_VM_OPERATION | PROCESS_DUP_HANDLE , FALSE, domain_id))
 {
-	if (!process_ || !Mailslot::open (Nirvana::Core::Windows::object_name (MAILSLOT_PREFIX, domain_id)))
+	if (!process_ || !Mailslot::open (Nirvana::Core::Windows::ObjectName (MAILSLOT_PREFIX, domain_id)))
 		Nirvana::throw_COMM_FAILURE ();
 }
 

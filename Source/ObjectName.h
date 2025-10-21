@@ -24,8 +24,8 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#ifndef NIRVANA_CORE_WINDOWS_OBJECT_NAME_H_
-#define NIRVANA_CORE_WINDOWS_OBJECT_NAME_H_
+#ifndef NIRVANA_CORE_WINDOWS_OBJECTNAME_H_
+#define NIRVANA_CORE_WINDOWS_OBJECTNAME_H_
 #pragma once
 
 #include "WinWChar.h"
@@ -34,16 +34,22 @@ namespace Nirvana {
 namespace Core {
 namespace Windows {
 
+class ObjectNameBase
+{
+protected:
+	static void to_string (unsigned id, WinWChar* s) noexcept;
+};
+
 template <size_t prefix_len>
-class ObjectName
+class ObjectName : private ObjectNameBase
 {
 public:
-	ObjectName (const WinWChar* prefix, unsigned id)
+	ObjectName (const WinWChar (&prefix) [prefix_len], unsigned id) noexcept
 	{
-		_ultow (id, real_copy (prefix, prefix + prefix_len - 1, name_), 16);
+		to_string (id, real_copy (prefix, prefix + prefix_len - 1, name_));
 	}
 
-	operator const WinWChar* () const
+	operator const WinWChar* () const noexcept
 	{
 		return name_;
 	}
@@ -51,12 +57,6 @@ public:
 private:
 	WinWChar name_ [prefix_len + 8];
 };
-
-template <size_t prefix_len> inline
-ObjectName <prefix_len> object_name (const WinWChar (&prefix) [prefix_len], unsigned id)
-{
-	return ObjectName <prefix_len> (prefix, id);
-}
 
 }
 }

@@ -113,7 +113,7 @@ bool SchedulerProcess::start () noexcept
 		return false;
 
 	semaphore_ = OpenSemaphoreW (SEMAPHORE_MODIFY_STATE, false,
-		object_name (SCHEDULER_SEMAPHORE_PREFIX, process_id_));
+		ObjectName (SCHEDULER_SEMAPHORE_PREFIX, process_id_));
 	if (!semaphore_) {
 		DisconnectNamedPipe (pipe_);
 		return false;

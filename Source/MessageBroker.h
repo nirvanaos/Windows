@@ -29,7 +29,7 @@
 #pragma once
 
 #include "PostOffice.h"
-#include "object_name.h"
+#include "ObjectName.h"
 #include <ORB/ESIOP.h>
 #include <StaticallyAllocated.h>
 
@@ -45,7 +45,7 @@ public:
 	static void create ()
 	{
 		singleton_.construct ();
-		singleton_->create_mailslot (Windows::object_name (MAILSLOT_PREFIX, GetCurrentProcessId ()));
+		singleton_->create_mailslot (Windows::ObjectName (MAILSLOT_PREFIX, GetCurrentProcessId ()));
 	}
 
 	static void initialize ()

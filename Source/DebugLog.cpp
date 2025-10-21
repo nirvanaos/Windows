@@ -25,6 +25,7 @@
 */
 #include "pch.h"
 #include "DebugLog.h"
+#include <stdio.h>
 #include "app_data.h"
 
 //#ifndef NDEBUG
@@ -58,7 +59,7 @@ void DebugLog::initialize () noexcept
 	*(char*)strrchr (path, '\\') = '\0';
 	if (!SymInitialize (GetCurrentProcess (), path, TRUE)) {
 		char buf [_MAX_ITOSTR_BASE16_COUNT];
-		_itoa (GetLastError (), buf, 16);
+		sprintf (buf, "%x", (unsigned int)GetLastError ());
 		DebugLog log;
 		log << "SymInitialize failed, error 0x" << buf << '\n';
 	}
@@ -150,22 +151,18 @@ void report_unhandled (EXCEPTION_POINTERS* pex)
 	DebugLog log;
 
 	char buf [_MAX_I64TOSTR_BASE16_COUNT];
-	_itoa (exc, buf, 16);
+	sprintf (buf, "%x", (unsigned int)exc);
 	log << "Unhandled exception 0x" << buf << '\n';
 	switch (exc) {
 	case EXCEPTION_ACCESS_VIOLATION:
 		if (pex->ExceptionRecord->NumberParameters >= 2) {
-			void* address = (void*)pex->ExceptionRecord->ExceptionInformation [1];
+			intptr_t address = (intptr_t)pex->ExceptionRecord->ExceptionInformation [1];
 			if (pex->ExceptionRecord->ExceptionInformation [0])
 				log << "Write to";
 			else
 				log << "Read from";
 			log << " address 0x";
-#ifdef _WIN64
-			_i64toa ((long long)address, buf, 16);
-#else
-			_itoa ((int)address, buf, 16);
-#endif
+			sprintf (buf, "%zx", address);
 			log << buf << '\n';
 		} break;
 
@@ -207,7 +204,7 @@ void DebugLog::stack_trace () const noexcept
 	for (int i = 0; i < frame_cnt; ++i) {
 		if (SymGetLineFromAddr64 (process, (DWORD64)(stack [i]), &displacement, &line)) {
 			char buf [_MAX_ITOSTR_BASE10_COUNT];
-			_itoa (line.LineNumber, buf, 10);
+			sprintf (buf, "%u", (unsigned int)line.LineNumber);
 			*this << line.FileName << '(' << buf << ")\n";
 		} else {
 			*this << "Line not found\n";

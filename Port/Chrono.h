@@ -33,7 +33,7 @@
 #include <Nirvana/time_defs.h>
 
 extern "C" __declspec(dllimport)
-void __stdcall QueryInterruptTimePrecise (unsigned __int64* lpInterruptTimePrecise);
+void __stdcall QueryInterruptTimePrecise (uint64_t*);
 
 namespace Nirvana {
 namespace Core {
@@ -64,7 +64,7 @@ public:
 	/// Duration since system startup in 100 ns intervals.
 	static SteadyTime steady_clock () noexcept
 	{
-		unsigned __int64 t;
+		uint64_t t;
 		QueryInterruptTimePrecise (&t);
 		return t;
 	}

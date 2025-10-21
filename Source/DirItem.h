@@ -109,7 +109,7 @@ protected:
 
 	static uint64_t make64 (uint32_t lo, uint32_t hi) noexcept
 	{
-		return (uint64_t)hi * 0x100000000ui64 + lo;
+		return (uint64_t)hi * 0x100000000ULL + lo;
 	}
 
 	static TimeBase::TimeT make_time (const _FILETIME& ft) noexcept;

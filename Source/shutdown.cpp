@@ -27,7 +27,7 @@
 #include "shutdown.h"
 #include <ORB/ESIOP.h>
 #include "Mailslot.h"
-#include "object_name.h"
+#include "ObjectName.h"
 #include "app_data.h"
 
 namespace Nirvana {

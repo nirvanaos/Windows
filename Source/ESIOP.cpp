@@ -27,7 +27,7 @@
 #include <ORB/ESIOP.h>
 #include "../Port/OtherDomain.h"
 #include "Mailslot.h"
-#include "object_name.h"
+#include "ObjectName.h"
 #include "error2errno.h"
 
 using namespace Nirvana::Core;
@@ -39,7 +39,7 @@ void send_error_message (ProtDomainId domain_id, const void* msg, size_t size) n
 {
 	try {
 		Mailslot ms;
-		ms.open (object_name (MAILSLOT_PREFIX, domain_id));
+		ms.open (ObjectName (MAILSLOT_PREFIX, domain_id));
 		ms.send (msg, (DWORD)size);
 	} catch (...) {
 	}
@@ -63,7 +63,7 @@ void send_shutdown (ProtDomainId domain_id, unsigned flags)
 
 	Shutdown msg ((Nirvana::Core::Security::Context::ABI)(uintptr_t)token, flags);
 	Mailslot ms;
-	ms.open (object_name (MAILSLOT_PREFIX, domain_id));
+	ms.open (ObjectName (MAILSLOT_PREFIX, domain_id));
 	ms.send (msg);
 	sc.detach ();
 }

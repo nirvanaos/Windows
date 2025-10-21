@@ -29,7 +29,11 @@
 #include "error2errno.h"
 #include <NameService/Dir.h>
 #include <NameService/File.h>
-#include <ShlObj.h>
+
+BOOL WINAPI GetUserProfileDirectoryW (
+	_In_                            HANDLE  hToken,
+	_Out_writes_opt_(*lpcchSize)    LPWSTR lpProfileDir,
+	_Inout_                         LPDWORD lpcchSize);
 
 using namespace CosNaming;
 
@@ -158,18 +162,18 @@ DirItemId FileSystemImpl::get_home (const IDL::String&, bool& may_cache)
 	may_cache = false;
 
 	WinWChar path [MAX_PATH];
-	HRESULT result = SHGetFolderPathW (NULL, CSIDL_PROFILE, NULL, 0, path);
-	if (SUCCEEDED (result))
+	DWORD cc = MAX_PATH;
+	if (GetUserProfileDirectoryW (Security::Context::current ().port (), path, &cc))
 		return dir_path_to_id (path);
 	else
-		throw CORBA::UNKNOWN ();
+		throw_last_error ();
 }
 
 size_t FileSystemImpl::get_temp_path (WinWChar* buf)
 {
 	size_t cc = GetTempPathW (MAX_PATH + 1, buf);
 	if (!cc)
-		throw_win_error_sys (GetLastError ());
+		throw_last_error ();
 	return cc;
 }
 

@@ -52,6 +52,7 @@ class Timer : public StackElem,
 {
 	friend class ObjectCreator <Timer*>;
 	using Thread = Port::Thread;
+	friend class Port::Thread;
 
 public:
 	static void initialize ();
@@ -66,7 +67,6 @@ private:
 	Timer ();
 	~Timer ();
 
-	friend class Thread;
 	static unsigned long __stdcall thread_proc (Timer* _this) noexcept;
 
 	void queue_apc (void (__stdcall *f) (Timer* _this)) noexcept
