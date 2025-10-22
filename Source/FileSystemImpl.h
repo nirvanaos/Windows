@@ -69,6 +69,7 @@ public:
 	static DirItemId get_var (const IDL::String&, bool& may_cache);
 	static DirItemId get_mnt (const IDL::String&, bool& may_cache);
 	static DirItemId get_home (const IDL::String&, bool& may_cache);
+	static DirItemId get_user_home (const IDL::String&, bool& may_cache);
 	static DirItemId get_sbin (const IDL::String&, bool& may_cache);
 	static DirItemId get_tmp (const IDL::String&, bool& may_cache);
 

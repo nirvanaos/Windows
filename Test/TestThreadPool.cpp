@@ -1,6 +1,6 @@
 #include "../Source/PostOffice.h"
 #include "../Source/Mailslot.h"
-#include "../Source/object_name.h"
+#include "../Source/ObjectName.h"
 #include "../Source/ThreadPostman.h"
 #include "../Source/SystemInfo.h"
 #include <gtest/gtest.h>
@@ -55,7 +55,7 @@ class PostOffice :
 public:
 	PostOffice ()
 	{
-		Base::create_mailslot (object_name (MAILSLOT_PREFIX, GetCurrentProcessId ()));
+		Base::create_mailslot (ObjectName (MAILSLOT_PREFIX, GetCurrentProcessId ()));
 		Base::start ();
 	}
 
@@ -83,9 +83,9 @@ private:
 TEST_F (TestThreadPool, PostOffice)
 {
 	Mailslot mailslot;
-	EXPECT_FALSE (mailslot.open (object_name (MAILSLOT_PREFIX, GetCurrentProcessId ())));
+	EXPECT_FALSE (mailslot.open (ObjectName (MAILSLOT_PREFIX, GetCurrentProcessId ())));
 	PostOffice po;
-	EXPECT_TRUE (mailslot.open (object_name (MAILSLOT_PREFIX, GetCurrentProcessId ())));
+	EXPECT_TRUE (mailslot.open (ObjectName (MAILSLOT_PREFIX, GetCurrentProcessId ())));
 
 	static const unsigned MESSAGE_CNT = 100;
 	for (unsigned i = 0; i < MESSAGE_CNT; ++i) {

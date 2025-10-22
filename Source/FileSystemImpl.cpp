@@ -30,10 +30,10 @@
 #include <NameService/Dir.h>
 #include <NameService/File.h>
 
-BOOL WINAPI GetUserProfileDirectoryW (
-	_In_                            HANDLE  hToken,
-	_Out_writes_opt_(*lpcchSize)    LPWSTR lpProfileDir,
-	_Inout_                         LPDWORD lpcchSize);
+extern "C" BOOL WINAPI GetUserProfileDirectoryW (HANDLE hToken, LPWSTR lpProfileDir, LPDWORD lpcchSize);
+extern "C" BOOL WINAPI GetProfilesDirectoryW (LPWSTR lpProfileDir, LPDWORD lpcchSize);
+
+#pragma comment (lib, "Userenv.lib")
 
 using namespace CosNaming;
 
@@ -158,6 +158,18 @@ DirItemId FileSystemImpl::get_mnt (const IDL::String&, bool& may_cache)
 }
 
 DirItemId FileSystemImpl::get_home (const IDL::String&, bool& may_cache)
+{
+	may_cache = false;
+
+	WinWChar path [MAX_PATH];
+	DWORD cc = MAX_PATH;
+	if (GetProfilesDirectoryW (path, &cc))
+		return dir_path_to_id (path);
+	else
+		throw_last_error ();
+}
+
+DirItemId FileSystemImpl::get_user_home (const IDL::String&, bool& may_cache)
 {
 	may_cache = false;
 
