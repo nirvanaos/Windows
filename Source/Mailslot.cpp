@@ -23,8 +23,8 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
 #include "Mailslot.h"
+#include "win32.h"
 
 namespace Nirvana {
 namespace Core {

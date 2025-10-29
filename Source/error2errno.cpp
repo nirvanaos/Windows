@@ -23,10 +23,10 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
 #include "error2errno.h"
 #include <algorithm>
 #include <assert.h>
+#include "win32.h"
 
 // Convert Windows error code to POSIX error code.
 

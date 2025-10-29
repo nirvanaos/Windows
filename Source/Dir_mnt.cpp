@@ -24,11 +24,11 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
 #include "Dir_mnt.h"
 #include <NameService/IteratorStack.h>
 #include "WinWChar.h"
 #include "error2errno.h"
+#include "win32.h"
 
 using namespace CosNaming;
 using namespace CosNaming::Core;

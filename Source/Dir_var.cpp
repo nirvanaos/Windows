@@ -23,7 +23,6 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
 #include "Dir_var.h"
 #include "error2errno.h"
 #include "DirIteratorEx.h"

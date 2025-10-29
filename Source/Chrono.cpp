@@ -23,12 +23,12 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
 #include "../Port/Chrono.h"
 #include <intrin.h>
 #include <limits>
 #include <Nirvana/rescale.h>
 #include "error2errno.h"
+#include "win32.h"
 
 namespace Nirvana {
 namespace Core {

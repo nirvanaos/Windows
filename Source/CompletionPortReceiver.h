@@ -28,6 +28,7 @@
 #define NIRVANA_CORE_WINDOWS_COMPLETIONPORTRECEIVER_H_
 #pragma once
 
+#include <stdint.h>
 #include <Nirvana/NirvanaBase.h>
 
 struct _OVERLAPPED;

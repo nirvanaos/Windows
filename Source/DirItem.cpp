@@ -23,9 +23,8 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
-#include <Security.h>
 #include "DirItem.h"
+#include <Security.h>
 #include "error2errno.h"
 #include "SecurityInfo.h"
 #include "TokenInformation.h"

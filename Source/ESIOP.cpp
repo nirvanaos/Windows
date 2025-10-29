@@ -23,12 +23,13 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
+#include "../Port/ESIOP.h"
 #include <ORB/ESIOP.h>
 #include "../Port/OtherDomain.h"
 #include "Mailslot.h"
 #include "ObjectName.h"
 #include "error2errno.h"
+#include "win32.h"
 
 using namespace Nirvana::Core;
 using namespace Nirvana::Core::Windows;
