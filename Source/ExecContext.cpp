@@ -71,7 +71,7 @@ ExecContext::~ExecContext ()
 	}
 }
 
-void ExecContext::run (ExecDomain& ed)
+void ExecContext::run (ExecDomain& ed) noexcept
 {
 	siginfo_t siginfo;
 	__try {
@@ -82,7 +82,7 @@ void ExecContext::run (ExecDomain& ed)
 	}
 }
 
-void __stdcall ExecContext::fiber_proc (Core::ExecContext* context)
+void __stdcall ExecContext::fiber_proc (Core::ExecContext* context) noexcept
 {
 	assert (context);
 	current (context);

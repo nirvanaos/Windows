@@ -51,7 +51,7 @@ void Thread::terminate () noexcept
 }
 
 inline
-void Thread::current (Core::Thread* core_thread)
+void Thread::current (Core::Thread* core_thread) noexcept
 {
 	TlsSetValue (current_, core_thread);
 }
@@ -64,7 +64,7 @@ Thread::~Thread ()
 }
 
 inline
-void Thread::join () const
+void Thread::join () const noexcept
 {
 	if (handle_ && (GetThreadId (handle_) != GetCurrentThreadId ()))
 		WaitForSingleObject (handle_, INFINITE);

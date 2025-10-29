@@ -75,7 +75,7 @@ protected:
 
 private:
 	friend class Nirvana::Core::Port::Thread;
-	static unsigned long __stdcall thread_proc (ThreadBackground* _this);
+	static unsigned long __stdcall thread_proc (ThreadBackground* _this) noexcept;
 
 	void resume () const noexcept
 	{

@@ -112,8 +112,8 @@ public:
 	}
 
 private:
-	static void run (ExecDomain& ed);
-	static void __stdcall fiber_proc (Core::ExecContext* context);
+	static void run (ExecDomain& ed) noexcept;
+	static void __stdcall fiber_proc (Core::ExecContext* context) noexcept;
 
 private:
 	static unsigned long current_;

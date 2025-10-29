@@ -32,7 +32,7 @@ namespace Nirvana {
 namespace Core {
 namespace Port {
 
-DWORD CALLBACK ThreadBackground::thread_proc (ThreadBackground* _this)
+DWORD CALLBACK ThreadBackground::thread_proc (ThreadBackground* _this) noexcept
 {
 	Core::ThreadBackground& thread = static_cast <Core::ThreadBackground&> (*_this);
 	Port::Thread::current (&thread);

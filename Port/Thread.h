@@ -81,7 +81,7 @@ public:
 	}
 
 	/// Wait for the thread termination
-	void join () const;
+	void join () const noexcept;
 
 	static void impersonate (const Security::Context& sec_context) noexcept
 	{
@@ -129,7 +129,7 @@ public:
 		create ((PTHREAD_START_ROUTINE)T::thread_proc, p, priority);
 	}
 
-	static void current (Core::Thread* core_thread);
+	static void current (Core::Thread* core_thread) noexcept;
 
 	int priority () const noexcept;
 	void priority (int i) const noexcept;
