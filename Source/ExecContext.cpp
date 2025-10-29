@@ -23,11 +23,10 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
+#include "ExecContext.inl"
 #include <ExecDomain.h>
 #include <Thread.h>
 #include <unrecoverable_error.h>
-#include "ExecContext.inl"
 #include "ex2signal.h"
 
 namespace Nirvana {

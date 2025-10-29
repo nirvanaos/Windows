@@ -2,7 +2,7 @@
 #include <Nirvana/Nirvana.h>
 #include "../Port/Memory.h"
 #include "../Source/OtherSpace.inl"
-#include "../Source/object_name.h"
+#include "../Source/ObjectName.h"
 #include "../Source/Mailslot.h"
 #include <gtest/gtest.h>
 
@@ -18,7 +18,7 @@ int other_process ()
 {
 	Memory::initialize ();
 
-	HANDLE mailslot = CreateMailslotW (object_name (MAILSLOT_PREFIX, GetCurrentProcessId ()),
+	HANDLE mailslot = CreateMailslotW (ObjectName (MAILSLOT_PREFIX, GetCurrentProcessId ()),
     sizeof (Message), MAILSLOT_WAIT_FOREVER, nullptr);
   if (INVALID_HANDLE_VALUE == mailslot)
     return -1;
@@ -113,7 +113,7 @@ protected:
 
 		for (int i = 0; i < 100; ++i) {
 			Sleep (10);
-			if (mailslot_.open (object_name (MAILSLOT_PREFIX, pi.dwProcessId)))
+			if (mailslot_.open (ObjectName (MAILSLOT_PREFIX, pi.dwProcessId)))
 				break;
 		}
 

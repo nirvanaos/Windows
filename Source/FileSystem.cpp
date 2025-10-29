@@ -23,7 +23,6 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
 #include "../Port/FileSystem.h"
 #include <NameService/File.h>
 #include "Dir_var.h"
@@ -40,6 +39,8 @@ const FileSystem::Root FileSystem::roots_ [] = {
 	{ "sbin", get_sbin },
 	{ "tmp", get_tmp },
 	{ "var", get_var }
+
+//	{ "~", get_user_home }
 };
 
 Roots FileSystem::get_roots ()

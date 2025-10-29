@@ -23,7 +23,7 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
+#include "../Port/ThreadBackground.h"
 #include <ThreadBackground.h>
 #include <ExecDomain.h>
 #include "Thread.inl"

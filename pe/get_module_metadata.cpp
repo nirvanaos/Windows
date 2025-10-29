@@ -19,10 +19,21 @@ public:
 		image_ (pe_factory::create_pe (file))
 	{}
 
-	Nirvana::ModuleMetadata get_module_metadata () const
+	Nirvana::ModuleMetadata get_module_metadata (bool exe) const
 	{
 		Nirvana::ModuleMetadata md;
 		md.platform = image_.get_machine ();
+
+		if (exe)
+			md.type = ModuleType::MODULE_NIRVANA;
+		else {
+			uint32_t entry_point = image_.get_ep ();
+			if (entry_point) {
+				md.set_error ("Image must be linked with /NOENTRY");
+				return md;
+			}
+		}
+
 		const section* olf = nullptr;
 		const section_list& sections = image_.get_image_sections ();
 		for (const section& sec : sections) {
@@ -32,17 +43,14 @@ public:
 			}
 		}
 
-		uint32_t entry_point = image_.get_ep ();
-		if (entry_point)
-			md.set_error ("Image must be linked with /NOENTRY");
-		else if (!olf)
+		if (!olf)
 			md.set_error ("Metadata not found");
 		else {
 			bool valid;
 			if (image_.get_pe_type () == pe_type_32)
-				valid = iterate <uint32_t> (*olf, md);
+				valid = iterate <uint32_t, false> (*olf, md);
 			else
-				valid = iterate <uint64_t> (*olf, md);
+				valid = iterate <uint64_t, false> (*olf, md);
 
 			if (!valid)
 				md.set_error ("Invalid metadata");
@@ -52,14 +60,15 @@ public:
 	}
 
 private:
-	template <typename Word>
+	template <typename Word, bool other_endian>
 	bool iterate (const section& olf, ModuleMetadata& md) const
 	{
-		for (OLF_Iterator <Word> it (olf.get_raw_data ().data (), olf.get_raw_data ().size ()); !it.end (); it.next ()) {
+		typedef OLF_Iterator <Word, other_endian> Iterator;
+		for (Iterator it (olf.get_raw_data ().data (), olf.get_raw_data ().size ()); !it.end (); it.next ()) {
 			if (!it.valid ())
 				return false;
 
-			OLF_Command command = (OLF_Command)*it.cur ();
+			OLF_Command command = it.cur_command ();
 			switch (command) {
 			case OLF_IMPORT_INTERFACE:
 			case OLF_IMPORT_OBJECT: {
@@ -80,7 +89,12 @@ private:
 
 			case OLF_MODULE_STARTUP: {
 				auto p = reinterpret_cast <const Nirvana::ModuleStartupW <Word>*> (it.cur ());
-				md.entries.push_back ({ command, (unsigned)(p->flags), std::string (), get_string (get_EPV <Word> (p->startup)->interface_id) });
+				md.entries.push_back ({ command, (unsigned)Iterator::native_endian (p->flags), get_string (p->name), get_string (get_EPV <Word> (p->startup)->interface_id) });
+			} break;
+
+			case OLF_PROCESS_STARTUP: {
+				auto p = reinterpret_cast <const Nirvana::ModuleStartupW <Word>*> (it.cur ());
+				md.entries.push_back ({ command, 0, std::string (), get_string (get_EPV <Word> (p->startup)->interface_id) });
 			} break;
 			}
 		}
@@ -132,24 +146,24 @@ private:
 
 namespace Nirvana {
 
-ModuleMetadata get_module_metadata (std::istream& file)
+ModuleMetadata get_module_metadata (std::istream& file, bool exe)
 {
 	ModuleMetadata md;
 	try {
 		ModuleReader reader (file);
-		md = reader.get_module_metadata ();
+		md = reader.get_module_metadata (exe);
 	} catch (const std::exception& ex) {
 		md.set_error (ex.what ());
 	}
 	return md;
 }
 
-ModuleMetadata get_module_metadata (Nirvana::AccessBuf::_ptr_type file)
+ModuleMetadata get_module_metadata (Nirvana::AccessBuf::_ptr_type file, bool exe)
 {
 	ModuleMetadata md;
 	try {
 		ModuleReader reader (file);
-		md = reader.get_module_metadata ();
+		md = reader.get_module_metadata (exe);
 	} catch (const std::exception& ex) {
 		md.set_error (ex.what ());
 	}

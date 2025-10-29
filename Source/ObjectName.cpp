@@ -14,6 +14,7 @@ void ObjectNameBase::to_string (unsigned id, WinWChar* s) noexcept
 		*(p++) = (d <= 9) ? ('0' + d) : ('A' + d - 10);
 	} while (id);
 	std::reverse (s, p);
+	*p = 0;
 }
 
 }

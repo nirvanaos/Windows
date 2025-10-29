@@ -23,7 +23,6 @@
 * Send comments and/or bug reports to:
 *  popov.nirvana@gmail.com
 */
-#include "pch.h"
 #include "../Port/Scheduler.h"
 #include "SchedulerMaster.h"
 #include "SchedulerSlave.h"
