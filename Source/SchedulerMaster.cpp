@@ -447,7 +447,7 @@ public:
 	{}
 
 private:
-	virtual void run () override;
+	void run () noexcept override;
 };
 
 class SchedulerMaster::ProcessTerminate : public SysDomainCall
@@ -458,7 +458,7 @@ public:
 	{}
 
 private:
-	virtual void run () override;
+	void run () noexcept override;
 };
 
 template <class R> inline
@@ -492,7 +492,7 @@ void SchedulerMaster::process_terminated (SchedulerProcess& process) noexcept
 	}
 }
 
-void SchedulerMaster::ProcessStart::run ()
+void SchedulerMaster::ProcessStart::run () noexcept
 {
 	try {
 		HANDLE process = process_->process_handle ();
@@ -515,7 +515,7 @@ void SchedulerMaster::ProcessStart::run ()
 	}
 }
 
-void SchedulerMaster::ProcessTerminate::run ()
+void SchedulerMaster::ProcessTerminate::run () noexcept
 {
 	sys_manager ().domain_destroyed (process_->process_id ());
 }
