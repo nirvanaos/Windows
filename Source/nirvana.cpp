@@ -106,16 +106,16 @@ start:
 
 inline int run_nirvana () noexcept
 {
+	int ret = -1;
 	try {
 		initialize0 ();
 		Nirvana::Windows::CmdLineParser <SharedAllocator> cmdline;
-		int ret = nirvana (cmdline.argc (), cmdline.argv ());
-		terminate0 ();
-		return ret;
+		ret = nirvana (cmdline.argc (), cmdline.argv ());
 	} catch (const std::exception& ex) {
 		ErrConsole () << ex.what () << '\n';
 	}
-	return -1;
+	terminate0 ();
+	return ret;
 }
 
 }

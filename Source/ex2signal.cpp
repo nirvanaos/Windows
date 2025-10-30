@@ -26,6 +26,7 @@
 #include "ex2signal.h"
 #include <Signals.h>
 #include "error2errno.h"
+#include <Nirvana/platform.h>
 
 namespace Nirvana {
 namespace Core {
@@ -121,11 +122,11 @@ bool ex2signal (EXCEPTION_POINTERS* pex, siginfo_t& siginfo) noexcept
 	}
 	if (siginfo.si_signo) {
 
-#ifdef _X86_
+#if NIRVANA_PLATFORM (X86)
 		siginfo.si_addr = (void*)pex->ContextRecord->Eip;
-#elif defined (_AMD64_)
+#elif NIRVANA_PLATFORM (X64)
 		siginfo.si_addr = (void*)pex->ContextRecord->Rip;
-#elif defined (_ARM_)
+#elif NIRVANA_PLATFORM (ARM)
 		siginfo.si_addr = (void*)pex->ContextRecord->Pc;
 #else
 #error Unsupported platform
