@@ -70,15 +70,9 @@ ExecContext::~ExecContext ()
 	}
 }
 
-void ExecContext::run (ExecDomain& ed) noexcept
+inline void ExecContext::run (ExecDomain& ed) noexcept
 {
-	siginfo_t siginfo;
-	__try {
-		ed.run ();
-	} __except (Windows::ex2signal (GetExceptionInformation (), siginfo) ?
-		EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH) {
-		ed.on_crash (siginfo);
-	}
+	ed.run ();
 }
 
 void __stdcall ExecContext::fiber_proc (Core::ExecContext* context) noexcept
@@ -115,13 +109,6 @@ void ExecContext::convert_to_fiber () noexcept
 		unrecoverable_error (GetLastError ());
 
 	current (static_cast <Core::ExecContext*> (this));
-}
-
-NIRVANA_NORETURN void ExecContext::raise (int signal)
-{
-	RaiseException (Windows::STATUS_SIGNAL_BEGIN + signal, EXCEPTION_NONCONTINUABLE, 0, nullptr);
-	// Under some circumstances, RaiseException can return.
-	unrecoverable_error (signal);
 }
 
 }

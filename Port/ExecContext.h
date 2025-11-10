@@ -68,10 +68,6 @@ public:
 	/// Destructor.
 	~ExecContext ();
 
-	/// Raise signal. raise(SIGABRT) to abort process.
-	/// Dangerous method used for POSIX compatibility.
-	NIRVANA_NORETURN void raise (int signal);
-
 protected:
 	/// Switch to this context.
 	void switch_to () noexcept

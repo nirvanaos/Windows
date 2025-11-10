@@ -116,9 +116,6 @@ bool ex2signal (EXCEPTION_POINTERS* pex, siginfo_t& siginfo) noexcept
 			siginfo.si_signo = SIGILL;
 			siginfo.si_code = ILL_PRVOPC;
 			break;
-		default:
-			if (STATUS_SIGNAL_BEGIN < exc && exc < STATUS_SIGNAL_BEGIN + NSIG)
-				siginfo.si_signo = exc - STATUS_SIGNAL_BEGIN;
 	}
 	if (siginfo.si_signo) {
 

@@ -98,9 +98,6 @@ const size_t PAGE_SIZE = 4096;
 const size_t PAGES_PER_BLOCK = 16; // Windows allocate memory by 64K blocks
 const size_t ALLOCATION_GRANULARITY = PAGE_SIZE * PAGES_PER_BLOCK;
 
-/// Signal exception numbers
-const unsigned long STATUS_SIGNAL_BEGIN = 0xE0000000;
-
 /// Offset in seconds from 15 October 1582 00:00:00 (DCE Time)
 /// to 1 January 1601 12:00:00 in seconds (Windows Time).
 const uint64_t WIN_TIME_OFFSET_SEC = 574862400UI64;
