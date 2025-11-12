@@ -40,6 +40,14 @@
 #define _WIN32_WINNT 0x0A00
 #define _ONECORE
 
+#ifndef _WIN32
+#define _WIN32
+#endif
+
+#if (_M_X64 || _M_ARM64) && !defined (_WIN64)
+#define _WIN64
+#endif
+
 extern "C" int _wcsicmp (wchar_t const* _String1, wchar_t const* _String2);
 
 #include <windows.h>
