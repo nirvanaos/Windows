@@ -1269,7 +1269,7 @@ bool Memory::initialize () noexcept
 {
 	SetErrorMode (SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX | SEM_NOOPENFILEERRORBOX);
 
-#if !defined (NDEBUG) && defined (_WIN32)
+#if !defined (NDEBUG) && defined (_CRT_WARN)
 	if (!IsDebuggerPresent ()) {
 		_CrtSetReportMode (_CRT_WARN, _CRTDBG_MODE_FILE);
 		_CrtSetReportFile (_CRT_WARN, _CRTDBG_FILE_STDERR);

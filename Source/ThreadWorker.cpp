@@ -24,11 +24,10 @@
 *  popov.nirvana@gmail.com
 */
 #include "ThreadWorker.h"
+#include <Startup.h>
 #include "WorkerThreads.h"
 #include "WorkerSemaphore.h"
 #include "CompletionPort.h"
-#include <ExecDomain.h>
-#include <Startup.h>
 #include "SchedulerBase.h"
 
 namespace Nirvana {

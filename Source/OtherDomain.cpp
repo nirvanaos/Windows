@@ -27,7 +27,6 @@
 #include "OtherSpace.inl"
 #include "ObjectName.h"
 #include "error2errno.h"
-#include <ExecDomain.h>
 
 using namespace Nirvana::Core;
 using namespace Nirvana::Core::Windows;
