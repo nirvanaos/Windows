@@ -24,7 +24,7 @@
 *  popov.nirvana@gmail.com
 */
 #include "initialize.h"
-#include <CmdLineParser.h>
+#include <Windows/CmdLineParser.h>
 #include "SchedulerMaster.h"
 #include "SchedulerSlave.h"
 #include "shutdown.h"

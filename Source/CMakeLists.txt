@@ -30,7 +30,7 @@ target_sources (Port PRIVATE
 	Memory.cpp
 	MessageBroker.cpp
 	Module.cpp
-# nirvana.cpp
+	nirvana.cpp
 	ObjectName.cpp
 	OtherDomain.cpp
 	PostOffice.cpp
