@@ -35,6 +35,8 @@ namespace Core {
 using namespace Windows;
 namespace Port {
 
+const TimeBase::TimeT SysDomain::PROCESS_STARTUP_TIMEOUT;
+
 uint32_t SysDomain::create_prot_domain (unsigned platform, const IDL::String& host, unsigned port)
 {
 	WinWChar path [MAX_PATH + 1];

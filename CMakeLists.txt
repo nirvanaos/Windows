@@ -37,9 +37,12 @@ target_include_directories (Port SYSTEM AFTER PRIVATE
 set (WIN_LIB_DIR "${WindowsSdkDir}Lib/${WindowsSDKVersion}um/${NIRVANA_TARGET_PLATFORM}")
 
 target_link_libraries (Port PUBLIC
-#	${WIN_LIB_DIR}/kernel32.Lib
-#	${WIN_LIB_DIR}/AdvAPI32.Lib
-	${WIN_LIB_DIR}/OneCore_apiset.Lib
+	${WIN_LIB_DIR}/AdvAPI32.Lib
+	${WIN_LIB_DIR}/DbgHelp.Lib
+	${WIN_LIB_DIR}/kernel32.Lib
+	${WIN_LIB_DIR}/ntdll.lib
+	${WIN_LIB_DIR}/OneCore.Lib
+	${WIN_LIB_DIR}/User32.Lib
 )
 
 add_subdirectory (Source)
