@@ -139,6 +139,8 @@ public:
 
 	static IDL::String get_name (const SecurityId& id);
 
+	static void get_entropy (void* buf, size_t size);
+
 	//------ Windows-specific ------------
 
 	static SecurityId make_security_id (PSID sid);
