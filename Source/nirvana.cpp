@@ -122,7 +122,7 @@ inline int run_nirvana () noexcept
 }
 }
 
-#ifdef _WIN32
+#if defined (_MSC_VER) && !defined (__clang__)
 
 // Use MS UCRT
 
@@ -146,7 +146,7 @@ int CALLBACK WinMain (HINSTANCE, HINSTANCE, LPSTR, int)
 
 // Use Nirvana CRTL
 
-#include <Nirvana/CRTL/initterm.h>
+#include <initterm/initterm.h>
 
 extern "C" DWORD nirvana_startup (void)
 {

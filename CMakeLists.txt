@@ -47,3 +47,5 @@ target_link_libraries (Port PUBLIC
 
 add_subdirectory (Source)
 add_subdirectory (pe)
+
+target_link_libraries (Port PUBLIC pe)
