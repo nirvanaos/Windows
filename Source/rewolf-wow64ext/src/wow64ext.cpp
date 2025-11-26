@@ -20,11 +20,9 @@
  *
  */
 
-#include <Nirvana/Nirvana.h>
-#include "../../win32.h"
-#include <cstddef>
-#include "internal.h"
 #include "wow64ext.h"
+#include "internal.h"
+#include <winternl.h>
 
 // Undefine iso646.h macros
 #ifdef and
@@ -99,12 +97,12 @@ extern "C" DWORD64 __cdecl X64Call(DWORD64 func, int argC, ...)
     reg64 _r9 = { (argC > 0) ? argC--, va_arg(args, DWORD64) : 0 };
     reg64 _rax = { 0 };
 
-    reg64 restArgs = { PTR_TO_DWORD64(&va_arg(args, DWORD64)) };
+    reg64 restArgs = { PTR_TO_DWORD64(args) };
     
     // conversion to QWORD for easier use in inline assembly
     reg64 _argC = { (DWORD64)argC };
     DWORD back_esp = 0;
-	WORD back_fs = 0;
+    WORD back_fs = 0;
 
     __asm
     {
@@ -389,23 +387,7 @@ DWORD64 getLdrGetProcedureAddress()
 
 extern "C" VOID __cdecl SetLastErrorFromX64Call(DWORD64 status)
 {
-	typedef ULONG (WINAPI *RtlNtStatusToDosError_t)(NTSTATUS Status);
-	typedef ULONG (WINAPI *RtlSetLastWin32Error_t)(NTSTATUS Status);
-
-	static RtlNtStatusToDosError_t RtlNtStatusToDosError = nullptr;
-	static RtlSetLastWin32Error_t RtlSetLastWin32Error = nullptr;
-
-	if ((nullptr == RtlNtStatusToDosError) || (nullptr == RtlSetLastWin32Error))
-	{
-		HMODULE ntdll = GetModuleHandleW(L"ntdll.dll");
-		RtlNtStatusToDosError = (RtlNtStatusToDosError_t)GetProcAddress(ntdll, "RtlNtStatusToDosError");
-		RtlSetLastWin32Error = (RtlSetLastWin32Error_t)GetProcAddress(ntdll, "RtlSetLastWin32Error");
-	}
-	
-	if ((nullptr != RtlNtStatusToDosError) && (nullptr != RtlSetLastWin32Error))
-	{
-		RtlSetLastWin32Error(RtlNtStatusToDosError((DWORD)status));
-	}
+  SetLastError (RtlNtStatusToDosError ((DWORD)status));
 }
 
 extern "C" DWORD64 __cdecl GetProcAddress64(DWORD64 hModule, const char* funcName)
