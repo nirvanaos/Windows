@@ -28,6 +28,7 @@
 #include "TokenInformation.h"
 #include <Nirvana/string_conv.h>
 #include <sddl.h>
+#include <bcrypt.h>
 
 #define WELL_KNOWN_SID_SIZE (SECURITY_SID_SIZE (1) + sizeof (unsigned) - 1) / sizeof (unsigned)
 
@@ -37,9 +38,6 @@ namespace Port {
 
 void* Security::process_token_;
 
-static HMODULE adv_api;
-typedef BOOL (WINAPI* RtlGenRandom) (void*, ULONG);
-static RtlGenRandom rtl_gen_random;
 
 unsigned Security::everyone_ [WELL_KNOWN_SID_SIZE];
 
@@ -57,12 +55,6 @@ bool Security::initialize () noexcept
 		)
 		return false;
 
-	adv_api = LoadLibraryW (WINWCS ("Advapi32.dll"));
-	if (!adv_api)
-		return false;
-	if (!(rtl_gen_random = (RtlGenRandom)GetProcAddress (adv_api, "SystemFunction036")))
-		return false;
-
 	return
 		create_well_known_sid (everyone_, WinWorldSid);
 }
@@ -70,7 +62,6 @@ bool Security::initialize () noexcept
 void Security::terminate () noexcept
 {
 	CloseHandle (process_token_);
-	FreeLibrary (adv_api);
 }
 
 Security::Context::ABI Security::Context::duplicate () const
@@ -188,7 +179,7 @@ IDL::String Security::get_name (const SecurityId& id)
 
 void Security::get_entropy (void* buf, size_t size)
 {
-	if (!(*rtl_gen_random) (buf, (ULONG)size))
+	if (BCryptGenRandom (nullptr, (PUCHAR)buf, (ULONG)size, BCRYPT_USE_SYSTEM_PREFERRED_RNG))
 		throw_BAD_PARAM ();
 }
 
