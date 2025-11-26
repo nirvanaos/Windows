@@ -21,7 +21,7 @@
  */
 
 #include <Nirvana/Nirvana.h>
-#include <Windows.h>
+#include "../../win32.h"
 #include <cstddef>
 #include "internal.h"
 #include "wow64ext.h"

@@ -52,3 +52,7 @@ target_sources (Port PRIVATE
 	unrecoverable_error.cpp
 	WorkerSemaphore.cpp	
 )
+
+if ((${NIRVANA_TARGET_PLATFORM} STREQUAL "x86") AND (${NIRVANA_HOST_PLATFORM} STREQUAL "PLATFORM_X64"))
+	target_sources (Port PRIVATE rewolf-wow64ext/src/wow64ext.cpp)
+endif ()
