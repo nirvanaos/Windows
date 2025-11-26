@@ -64,13 +64,6 @@ Thread::~Thread ()
 }
 
 inline
-void Thread::join () const noexcept
-{
-	if (handle_ && (GetThreadId (handle_) != GetCurrentThreadId ()))
-		WaitForSingleObject (handle_, INFINITE);
-}
-
-inline
 int Thread::priority () const noexcept
 {
 	return GetThreadPriority (handle_);

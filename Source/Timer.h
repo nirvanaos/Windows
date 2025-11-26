@@ -29,7 +29,7 @@
 #pragma once
 
 #include "win32.h"
-#include "../Port/Thread.h"
+#include "Thread.inl"
 #include "error2errno.h"
 #include <AtomicCounter.h>
 #include <StaticallyAllocated.h>

@@ -45,6 +45,12 @@ void Thread::create (PTHREAD_START_ROUTINE thread_proc, void* param, int priorit
 		NIRVANA_VERIFY (SetThreadPriority (handle_, priority));
 }
 
+void Thread::join () const noexcept
+{
+	if (handle_ && (GetThreadId (handle_) != GetCurrentThreadId ()))
+		WaitForSingleObject (handle_, INFINITE);
+}
+
 Thread::PriorityBoost::PriorityBoost (Core::Thread* thread, int priority) noexcept :
 	thread_ (thread)
 {
