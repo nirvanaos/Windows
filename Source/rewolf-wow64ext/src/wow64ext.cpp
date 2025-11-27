@@ -301,7 +301,8 @@ DWORD64 getTEB64()
 	// R12 register should always contain pointer to TEB64 in WoW64 processes
 	X64_Push(_R12);
 	// below pop will pop QWORD from stack, as we're in x64 mode now
-	__asm pop reg.dw[0] X64_End();
+	__asm pop reg.dw[0]
+	X64_End();
 
 	return reg.v;
 }
