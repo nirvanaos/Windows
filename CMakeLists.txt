@@ -34,6 +34,8 @@ target_include_directories (Port SYSTEM AFTER PRIVATE
 	${WIN_SDK_INC_DIR}shared
 )
 
+target_compile_options (Port PRIVATE -fasm-blocks)
+
 set (WIN_LIB_DIR "${WindowsSdkDir}Lib/${WindowsSDKVersion}um/${NIRVANA_TARGET_PLATFORM}")
 
 target_link_libraries (Port PUBLIC
