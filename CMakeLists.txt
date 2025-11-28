@@ -34,7 +34,8 @@ target_include_directories (Port SYSTEM AFTER PRIVATE
 	${WIN_SDK_INC_DIR}shared
 )
 
-target_compile_options (Port PRIVATE -fasm-blocks)
+# We use -ffreestanding to prevent include_next <stdint.h> etc. from the MSVC include directories
+target_compile_options (Port PRIVATE -fasm-blocks -ffreestanding)
 
 set (WIN_LIB_DIR "${WindowsSdkDir}Lib/${WindowsSDKVersion}um/${NIRVANA_TARGET_PLATFORM}")
 
