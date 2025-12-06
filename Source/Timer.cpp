@@ -29,7 +29,6 @@
 
 namespace Nirvana {
 namespace Core {
-
 namespace Windows {
 
 class Timer::Global
@@ -111,7 +110,7 @@ private:
 
 StaticallyAllocated <Timer::Global> Timer::global_;
 
-inline void Timer::initialize ()
+inline void Timer::initialize () noexcept
 {
 	global_.construct ();
 }
@@ -218,9 +217,10 @@ inline void Timer::cancel () noexcept
 
 namespace Port {
 
-void Timer::initialize ()
+bool Timer::initialize () noexcept
 {
 	Windows::Timer::initialize ();
+	return true;
 }
 
 void Timer::terminate () noexcept

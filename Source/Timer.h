@@ -55,7 +55,7 @@ class Timer : public StackElem,
 	friend class Port::Thread;
 
 public:
-	static void initialize ();
+	static void initialize () noexcept;
 	static void terminate () noexcept;
 
 	static Timer& create (Port::Timer& facade);

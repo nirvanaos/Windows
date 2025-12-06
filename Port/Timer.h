@@ -49,7 +49,7 @@ public:
 	void set (unsigned flags, TimeBase::TimeT due_time, TimeBase::TimeT period);
 	void cancel () noexcept;
 
-	static void initialize ();
+	static bool initialize () noexcept;
 	static void terminate () noexcept;
 
 protected:

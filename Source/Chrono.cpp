@@ -44,7 +44,7 @@ void* Chrono::hkey_time_config_;
 void* Chrono::hkey_time_client_;
 uint64_t Chrono::clock_resolution_;
 
-void Chrono::initialize ()
+bool Chrono::initialize () noexcept
 {
 	TSC_frequency_ = 0;
 	{
@@ -61,7 +61,7 @@ void Chrono::initialize ()
 	if (!TSC_frequency_) {
 		LARGE_INTEGER pf;
 		if (!QueryPerformanceFrequency (&pf))
-			throw_INITIALIZE ();
+			return false;
 
 		LARGE_INTEGER pc_start;
 		int prio = GetThreadPriority (GetCurrentThread ());
@@ -84,17 +84,18 @@ void Chrono::initialize ()
 
 		HKEY time_service;
 		if (RegOpenKeyW (HKEY_LOCAL_MACHINE, L"SYSTEM\\CurrentControlSet\\Services\\W32Time", &time_service))
-			throw_INITIALIZE ();
+			return false;
 		if (RegOpenKeyW (time_service, L"Config", &hkey_time_config_))
-			throw_INITIALIZE ();
+			return false;
 		if (RegOpenKeyW (time_service, L"TimeProviders\\NtpClient", &hkey_time_client_))
-			throw_INITIALIZE ();
+			return false;
 		RegCloseKey (time_service);
 	}
 
 #ifndef NIRVANA_FAST_RESCALE64
 	max_timeout64_ = std::numeric_limits <uint64_t>::max () / TSC_frequency_;
 #endif
+	return true;
 }
 
 void Chrono::terminate () noexcept

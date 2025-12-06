@@ -32,7 +32,6 @@
 #include "DebugLog.h"
 #include <StartupProt.h>
 #include <StartupSys.h>
-#include <initterm.h>
 #include <SharedAllocator.h>
 
 namespace Nirvana {
@@ -108,13 +107,11 @@ inline int run_nirvana () noexcept
 {
 	int ret = -1;
 	try {
-		initialize0 ();
 		Nirvana::Windows::CmdLineParser <SharedAllocator> cmdline;
 		ret = nirvana (cmdline.argc (), cmdline.argv ());
 	} catch (const std::exception& ex) {
 		ErrConsole () << ex.what () << '\n';
 	}
-	terminate0 ();
 	return ret;
 }
 
@@ -130,8 +127,7 @@ extern "C" DWORD WinMainCRTStartup (void);
 
 extern "C" DWORD nirvana_startup (void)
 {
-	if (!Nirvana::Core::Windows::initialize_windows ())
-		return -1;
+	Nirvana::Core::Windows::initialize_windows ();
 	return WinMainCRTStartup ();
 	// Actually it does not return here
 }
@@ -150,8 +146,7 @@ int CALLBACK WinMain (HINSTANCE, HINSTANCE, LPSTR, int)
 
 extern "C" DWORD nirvana_startup (void)
 {
-	if (!Nirvana::Core::Windows::initialize_windows ())
-		return -1;
+	Nirvana::Core::Windows::initialize_windows ();
 	if (!CRTL::initialize ())
 		return -1;
 	int ret = Nirvana::Core::Windows::run_nirvana ();

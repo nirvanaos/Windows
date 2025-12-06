@@ -96,7 +96,7 @@ public:
 	/// \return Deadline time as local steady clock value.
 	static DeadlineTime make_deadline (TimeBase::TimeT timeout) noexcept;
 
-	static void initialize ();
+	static bool initialize () noexcept;
 	static void terminate () noexcept;
 
 private:

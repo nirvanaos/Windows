@@ -27,10 +27,9 @@
 #define NIRVANA_CORE_WINDOWS_INITIALIZE_H_
 #pragma once
 
+#include <initterm.h>
 #include "Thread.inl"
-#include "ErrConsole.h"
 #include "../Port/SystemInfo.h"
-#include "../Port/Chrono.h"
 #include "../Port/Security.h"
 
 namespace Nirvana {
@@ -38,19 +37,15 @@ namespace Core {
 namespace Windows {
 
 inline
-bool initialize_windows (void) noexcept
+void initialize_windows (void) noexcept
 {
+	Core::initialize0 ();
   Core::SystemInfo::initialize ();
   if (
     !Port::Thread::initialize () ||
-    !Core::Heap::initialize () ||
     !Port::Security::initialize ()
-  ) {
-    ErrConsole () << "INITIALIZE" << '\n';
-    return false;
-  }
-
-  return true;
+  )
+		unrecoverable_error (0);
 }
 
 inline

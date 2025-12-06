@@ -17,7 +17,7 @@ elseif (${NIRVANA_TARGET_PLATFORM} STREQUAL  "arm64")
 endif ()
 
 # Get Windows SDK and Visual Studio environment
-execute_process (COMMAND powershell.exe -File "${CMAKE_CURRENT_SOURCE_DIR}/vsdevenv.ps1" ${NIRVANA_TARGET_PLATFORM}
+execute_process (COMMAND powershell.exe -File "${CMAKE_CURRENT_SOURCE_DIR}/vsdevenv.ps1"
 	ENCODING UTF-8
 	OUTPUT_VARIABLE vs_environment
 )

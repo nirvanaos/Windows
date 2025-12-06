@@ -31,7 +31,7 @@ namespace Nirvana {
 namespace Core {
 namespace Port {
 
-NIRVANA_NORETURN void _unrecoverable_error (int code, const char* file, unsigned line)
+NIRVANA_NORETURN void _unrecoverable_error (int code, const char* file, unsigned line) noexcept
 {
 	char scode [_MAX_ITOSTR_BASE10_COUNT], sline [_MAX_ITOSTR_BASE10_COUNT];
 	sprintf (scode, "%d", code);
