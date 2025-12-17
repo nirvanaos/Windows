@@ -40,7 +40,6 @@ inline
 void initialize_windows (void) noexcept
 {
 	Core::initialize0 ();
-  Core::SystemInfo::initialize ();
   if (
     !Port::Thread::initialize () ||
     !Port::Security::initialize ()
@@ -51,9 +50,9 @@ void initialize_windows (void) noexcept
 inline
 void terminate_windows (void) noexcept
 {
-  Heap::terminate ();
+  Port::Security::terminate ();
   Port::Thread::terminate ();
-  Core::SystemInfo::terminate ();
+  Core::terminate0 ();
 }
 
 }
