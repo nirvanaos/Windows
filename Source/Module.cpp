@@ -123,7 +123,12 @@ void Module::unload () noexcept
 				Sleep (RETRY_WAIT_MS);
 			}
 		}
-		assert (retry_cnt);
+
+		// LLDB keeps DLL loaded (and therefore the file locked) even after the FreeLibrary is called.
+#ifndef NDEBUG
+		if (!IsDebuggerPresent ())
+			assert (retry_cnt);
+#endif
 	}
 }
 

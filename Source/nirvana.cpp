@@ -152,7 +152,7 @@ extern "C" DWORD nirvana_startup (void)
 	int ret = Nirvana::Core::Windows::run_nirvana ();
 	CRTL::terminate ();
 	Nirvana::Core::Windows::terminate_windows ();
-	return ret;
+	ExitProcess (ret);
 }
 
 #endif
